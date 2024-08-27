@@ -12,6 +12,8 @@
 *.gtf
 *.gff
 
+
+
 # fastqc output 
 fastqc_out/
 
@@ -20,6 +22,9 @@ fastqc_out/
 16_3D_mbnl_S12_L008_R2_001_fastqc/
 6_2D_mbnl_S5_L008_R1_001_fastqc/
 6_2D_mbnl_S5_L008_R2_001_fastqc/
+
+#out and err files
+Logs/
 
 # STAR files
 *.out.tab

@@ -16,16 +16,12 @@ conda activate QAA
 
 /usr/bin/time -v ./read_len_dist.py \
     -p1 'trim_out/16_R1_paired_filtered.fastq.gz' \
-    -u1 'trim_out/16_R1_unpaired_filtered.fastq.gz' \
     -p2 'trim_out/16_R2_paired_filtered.fastq.gz' \
-    -u2 'trim_out/16_R2_unpaired_filtered.fastq.gz' \
     -o 16
 
 /usr/bin/time -v ./read_len_dist.py \
     -p1 'trim_out/6_R1_paired_filtered.fastq.gz' \
-    -u1 'trim_out/6_R1_unpaired_filtered.fastq.gz' \
     -p2 'trim_out/6_R2_paired_filtered.fastq.gz' \
-    -u2 'trim_out/6_R2_unpaired_filtered.fastq.gz' \
     -o 6
 
 exit

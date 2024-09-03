@@ -13,7 +13,6 @@
 *.gff
 
 
-
 # fastqc output 
 fastqc_out/
 
@@ -29,6 +28,10 @@ Logs/
 # STAR files
 *.out.tab
 _STARtmp/
+Mus_aligned_out/
+Mus_musculus.GRCm39.dna.ens112.STAR_2.7.11b/
+mmus_files/
+
 
 # vscode
 .vscode/

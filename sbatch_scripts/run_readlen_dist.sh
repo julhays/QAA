@@ -2,7 +2,7 @@
 
 #SBATCH --account=bgmp                    #REQUIRED: which account to use
 #SBATCH --partition=bgmp                  #REQUIRED: which partition to use
-#SBATCH -c 8                 #optional: number of cpus, default is 1
+#SBATCH -c 1                 #optional: number of cpus, default is 1
 #SBATCH --mem=100GB                        #optional: amount of memory, default is 4GB per cpu
 #SBATCH --time=0-8
 #SBATCH --mail-user=jkhay@uoregon.edu     #optional: if you'd like email

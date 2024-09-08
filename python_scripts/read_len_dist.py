@@ -57,7 +57,7 @@ r2_lens = read_len_dist(R2_paired)
 #plot the distribution of read lengths for R1 and R2
 input = [r1_lens, r2_lens]
 #plt.figure(figsize=(10,10))
-plt.hist(input, histtype='bar', bins=66)
+plt.hist(input, histtype='bar', bins=66, color=["#266489", "#68B9C0"])
 plt.yscale('log')
 plt.xlabel("Read length (nts)")
 plt.ylabel("log(Frequency)")

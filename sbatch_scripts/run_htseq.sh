@@ -14,10 +14,10 @@
 
 conda activate QAA
 
-/usr/bin/time -v htseq-count -f sam -r name --stranded=yes -c 6_stranded.genecount Mus_aligned_out/6_Mus_Aligned.out.sam mmus_files/Mus_musculus.GRCm39.112.gtf
-/usr/bin/time -v htseq-count -f sam -r name --stranded=yes -c 16_stranded.genecount Mus_aligned_out/16_Mus_Aligned.out.sam mmus_files/Mus_musculus.GRCm39.112.gtf
-/usr/bin/time -v htseq-count -f sam -r name --stranded=reverse -c 6_reverse.genecount Mus_aligned_out/6_Mus_Aligned.out.sam mmus_files/Mus_musculus.GRCm39.112.gtf
-/usr/bin/time -v htseq-count -f sam -r name --stranded=reverse -c 16_reverse.genecount Mus_aligned_out/16_Mus_Aligned.out.sam mmus_files/Mus_musculus.GRCm39.112.gtf
+/usr/bin/time -v htseq-count --stranded=yes Mus_aligned_out/6_Mus_Aligned.out.sam mmus_files/Mus_musculus.GRCm39.112.gtf > counts_files/6_stranded.genecount
+/usr/bin/time -v htseq-count --stranded=yes Mus_aligned_out/16_Mus_Aligned.out.sam mmus_files/Mus_musculus.GRCm39.112.gtf > counts_files/16_stranded.genecount
+/usr/bin/time -v htseq-count --stranded=reverse Mus_aligned_out/6_Mus_Aligned.out.sam mmus_files/Mus_musculus.GRCm39.112.gtf > counts_files/6_reverse.genecount
+/usr/bin/time -v htseq-count --stranded=reverse Mus_aligned_out/16_Mus_Aligned.out.sam mmus_files/Mus_musculus.GRCm39.112.gtf > counts_files/16_reverse.genecount
 
 exit
 

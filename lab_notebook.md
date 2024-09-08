@@ -4,16 +4,19 @@ Jules Hays
 
 Python version: 3.12.5
 
-Environments used: QAA (fastqc 0.12.1, cutadapt 4.9, trimmomatic 0.39, matplotlib 3.9.2, star 2.7.11b, numpy 2.1.0, htseq 2.0.5)
+Environments used: QAA (fFastQC 0.12.1, Cutadapt 4.9, Trimmomatic 0.39, Matplotlib 3.9.2, STAR 2.7.11b, NumPy 2.1.0, HTSeq 2.0.5, Samtools 1.6)
 
 __File directory__
 
-Python scripts:
+```lab_notebook.md``` - Lab notebook for QAA assignment
+
+```python_scripts```:
 * qual_dist.py - plots the quality score per base of reads (Part 1)
 * read_len_dist.py - plots the read length dist of paired trimmed and filtered reads (Part 2)
 * sam_parse.py - counts the number of mapped and unmapped reads from the STAR alignment output SAM files (Part 3)
+* bioinfo.py - I used the convert_phred function from this script in qual_dist.py
 
-sbatch scripts:
+```sbatch_scripts```:
 * run_qual_dist.sh - runs qual_dist.py for each file in both pairs (Part 1)
 * run_cutadapt.sh - runs cutadapt, once per pair, to cut adaptor regions from the reads (Part 2)
 * run_trimmomatic.sh - runs trimmomatic, once per pair, to cut low quality regions from the reads (Part 2)
@@ -22,6 +25,29 @@ sbatch scripts:
 * run_star_align.sh - runs STAR alignReads once per pair to align the filtered and trimmed reads to the generated database (Part 3)
 * run_htseq.sh - runs htseq-count, once stranded for each pair and once reverse stranded for each pair, to count the reads that map to features (Part 3)
 
+```counts_files```:
+* 6_stranded.genecount - ht_seq output for file pair 6_2D_mbnl_S5_L008, ```stranded = yes```
+* 6_reverse.genecount - ht_seq output for file pair 6_2D_mbnl_S5_L008, ```stranded = reverse```
+* 16_stranded.genecount - ht_seq output for file pair 16_3D_mbnl_S12_L008, ```stranded = yes```
+* 6_reverse.genecount - ht_seq output for file pair 16_3D_mbnl_S12_L008, ```stranded = reverse```
+
+```fastqc_plots```:
+* 6_R1/ - FastQC plots for 6_2D_mbnl_S5_L008_R1_001.fastq.gz
+* 6_R2/ - FastQC plots for 6_2D_mbnl_S5_L008_R2_001.fastq.gz
+* 6_R1/ - FastQC plots for 16_3D_mbnl_S12_L008_R1_001.fastq.gz
+* 6_R1/ - FastQC plots for 16_3D_mbnl_S12_L008_R2_001.fastq.gz
+* html FastQC plot output also included for each file
+
+```qual_plots```:
+* 6_R1_dist.png - quality distribution plot for 6_2D_mbnl_S5_L008_R1_001.fastq.gz from qual_dist.py
+* 6_R2_dist.png - quality distribution plot for 6_2D_mbnl_S5_L008_R2_001.fastq.gz from qual_dist.py
+* 16_R1_dist.png - quality distribution plot for 16_3D_mbnl_S12_L008_R1_001.fastq.gz from qual_dist.py
+* 16_R2_dist.png - quality distribution plot for 16_3D_mbnl_S12_L008_R2_001.fastq.gz from qual_dist.py
+
+
+```read_len_plots```:
+* read_len_dist_6.png - read length distribution of adaptor and quality trimmed reads from 6_2D_mbnl_S5_L008
+* read_len_dist_16.png - read length distribution of adaptor and quality trimmed reads from 16_3D_mbnl_S12_L008
 
 
 
@@ -169,10 +195,13 @@ Below I will paste the resulting plots for each file.
 
 | File name | per_base_qual | per_base_n |
 |---|---|---|
-| 16_R1 | ![alt text](fastqc_plots/16_R1_per_base_qual.png) | ![alt text](fastqc_plots/16_R1_per_base_n.png) |
-| 16_R2 | ![alt text](fastqc_plots/16_R2_per_base_qual.png) | ![alt text](fastqc_plots/16_R2_per_base_n.png) |
-| 6_R1 | ![alt text](fastqc_plots/6_R1_per_base_qual.png) | ![alt text](fastqc_plots/6_R1_per_base_n.png) |
-| 6_R2 | ![alt text](fastqc_plots/6_R2_per_base_qual.png) | ![alt text](fastqc_plots/6_R2_per_base_n.png) |
+| 16_R1 | ![alt text](fastqc_plots/16_R1/per_base_quality.png) | ![alt text](fastqc_plots/16_R1/per_base_n_content.png) |
+| 16_R2 | ![alt text](fastqc_plots/16_R2/per_base_quality.png) | ![alt text](fastqc_plots/16_R2/per_base_n_content.png) |
+| 6_R1 | ![alt text](fastqc_plots/6_R1/per_base_quality.png) | ![alt text](fastqc_plots/6_R1/per_base_n_content.png) |
+| 6_R2 | ![alt text](fastqc_plots/6_R2/per_base_quality.png) | ![alt text](fastqc_plots/6_R2/per_base_n_content.png) |
+
+
+__Produce plots of the per-base N content, and comment on whether or not they are consistent with the quality score plots.__
 
 The per base quality score distribution is consistant with the per base n content plot in all 4 files because there's a small spike in n content at the beginning of the reads and it looks like the quality score of the beginning the reads is lower than the rest of the read.
 
@@ -195,10 +224,10 @@ It succesffully ran, but it took a long time. If I do this again I will use 4 se
 Below is a table to compare the per base average quality score of the 4 files:
 | File name | fastq_per_base_qual | my_per_base_qual |
 |---|---|---|
-| 16_R1 | ![alt text](fastqc_plots/16_R1_per_base_qual.png) | ![alt text](qual_plots/16_R1_dist.png) |
-| 16_R2 | ![alt text](fastqc_plots/16_R2_per_base_qual.png) | ![alt text](qual_plots/16_R2_dist.png) |
-| 6_R1 | ![alt text](fastqc_plots/6_R1_per_base_qual.png) | ![alt text](qual_plots/6_R1_dist.png) |
-| 6_R2 | ![alt text](fastqc_plots/6_R2_per_base_qual.png) | ![alt text](qual_plots/6_R2_dist.png) |
+| 16_R1 | ![alt text](fastqc_plots/16_R1/per_base_quality.png) | ![alt text](qual_plots/16_R1_dist.png) |
+| 16_R2 | ![alt text](fastqc_plots/16_R2/per_base_quality.png) | ![alt text](qual_plots/16_R2_dist.png) |
+| 6_R1 | ![alt text](fastqc_plots/6_R1/per_base_quality.png) | ![alt text](qual_plots/6_R1_dist.png) |
+| 6_R2 | ![alt text](fastqc_plots/6_R2/per_base_quality.png) | ![alt text](qual_plots/6_R2_dist.png) |
 
 Here is a summary of runtime stats:
 | Method | Runtime | Number of Cores | CPU Usage |
@@ -206,7 +235,9 @@ Here is a summary of runtime stats:
 | FastQC | 2 minutes 49 seconds | 4 | 99% |
 | qual_dist.py | 20 minutes 8 seconds | 8 | 99% |
 
-The quality score distribution plots look very similar between the 2 methods. One obvious difference between the 2 plots is the the FastQC generated plot it gives more information about the distribution of quality scores for each nucleotide position than my plot. The red line shows the median, the yellow box shows the IQR, the upper and lower wisker give the 10% and 90% points, and the blue line gives the mean [1]. My plot only shows the mean for a given position, so I can compare the blue "mean" line with my plots. The lines for means appear to follow the same pattern, spiking and dipping in the same nucleotide positions, the dips and spikes are just less dramatic in the FastQC plots because the y-axis ranges from 0 to 30 whereas mine ranges from 30 to 40. The FastQC plots also show some guidelines with the red, orange, and green color zones to show what should be considered as a cutoff for 'good' quality, whereas my graph does not give any information about a cutoff. The FastQC plots are binned into 2 nucleotide groups, whereas my plots show a continuous distribution. This binning could potentially cause a loss of data. Finally, for my 4th file specifically, ```6_2D_mbnl_S5_L008_R2_001.fastq.gz```, the FastQC plot brings attention to some lower quality data: a dip in lower quartile/10% quality scores around bp 30-40, as well as a dip in lower quartile/10% quality at the end of the read from base pair 55 onwards. This means that there are some reads in the bottom 25% that are at or below the green cutoff of 28 in large sections of the read. My plot only shows the impact of these lower quality reads on the mean, which causes a small dip from about 38 to 36. I wouldn't think to throw out any reads based on my plot, but after seeing the FastQC  plot, I believe there are some lower quality reads in the ```6_2D_mbnl_S5_L008_R2_001.fastq.gz``` file that should be thrown out.
+__Describe how the FastQC quality score distribution plots compare to your own. If different, propose an explanation. Also, does the runtime differ? Mem/CPU usage? If so, why?__
+
+The quality score distribution plots look very similar between the 2 methods. One obvious difference between the 2 plots is the the FastQC generated plot it gives more information about the distribution of quality scores for each nucleotide position than my plot. The red line shows the median, the yellow box shows the IQR, the upper and lower wisker give the 10% and 90% points, and the blue line gives the mean [1]. My plot only shows the mean for a given position, so I can compare the blue "mean" line with my plots. The lines for means appear to follow the same pattern, spiking and dipping in the same nucleotide positions, the dips and spikes are just less dramatic in the FastQC plots because the y-axis ranges from 0 to 40 whereas mine ranges from 30 to 40. The FastQC plots also show some guidelines with the red, orange, and green color zones to show what should be considered as a cutoff for 'good' quality, whereas my graph does not give any information about a cutoff. The FastQC plots are binned into 2 nucleotide groups, whereas my plots show a continuous distribution. This binning could potentially cause a loss of data. Finally, for my 4th file specifically, ```6_2D_mbnl_S5_L008_R2_001.fastq.gz```, the FastQC plot brings attention to some lower quality data: a dip in lower quartile/10% quality scores around bp 30-40, as well as a dip in lower quartile/10% quality at the end of the read from base pair 55 onwards. This means that there are some reads in the bottom 25% that are at or below the green cutoff of 28 in large sections of the read. My plot only shows the impact of these lower quality reads on the mean, which causes a small dip from about 38 to 36. I wouldn't think to throw out any reads based on my plot, but after seeing the FastQC  plot, I believe there are some lower quality reads in the ```6_2D_mbnl_S5_L008_R2_001.fastq.gz``` file that should be thrown out.
 
 In terms of runtime, in addition to providing a more in depth analysis of the quality score distribution, FastQC also ran through all 4 files 10 times faster than my python script did (see above runtime comparison table). Additionally, the 2 methods used the same % of CPU but FastQC did so with half the number of cores as my script. Overall, FastQC provides a better analysis of quality distribution and is faster and more efficient.
 
@@ -214,6 +245,8 @@ Some reasons that FastQC might be so much better in performance and faster than 
 
 source: [1] https://www.bioinformatics.babraham.ac.uk/projects/fastqc/Help/3%20Analysis%20Modules/2%20Per%20Base%20Sequence%20Quality.html
 [2] https://www.bioinformatics.babraham.ac.uk/projects/fastqc/INSTALL.txt#:~:text=Installing%20FastQC%20%2D%2D%2D%2D%2D,Runtime%20Environment%20(JRE)%20installed.
+
+__Comment on the overall data quality of your two libraries. Go beyond per-base qscore distributions. Make and justify a recommendation on whether these data are of high enough quality to use for further analysis.__
 
 In terms of the overall quality of my two libraries, I belive they are high enough quality to continue with further analysis. The per base quality for 3 of the 4 files looks great, with all the means and lower 10th percentiles in the green range. The file with a questionable per base quality, file 6_R2, the means are all in the green zone but the lower quartile and 10th percentile dip into the yellow zone. Therefore, there are some low quality reads in this file that will likely need to be trimmed out. In terms of per base n contenct, all four files look good. There is just a small increase less than a percent or two in N content at the beginning position of the read for each file but then it tapers off to close to 0%, but this it to be expected since the beginning of a read in Illumina will be slightly lower quality and have unknown calls as the machine orients itself. The per base sequence quality score plots also look good, increasing gradually from a quality score of 30 to 38, then spiking sharply up from 38-40. This shows that a majority of the reads have an average quality between 38 and 40, which is good. The only graph that is different in in 6_R2 the gradual increase starts at a score of 20, and then the graph spikes at a score of 36-40. This means that a majority of the reads for this file are between 36 and 40 and there's some reads below 30, which is consistant with the ber base quality for that file. The per base GC content distribtuion looks roughtly normal for all 4 files, indicating that the library was not biased. For sequence length distribution, all of the reads are 101 base pairs which is what was expected. There seems to be a lot of duplication within these files. For 6_R1 there is a spike in percentage of reads with >10 duplicates and when duduplicated, there will be 47% of the reads remaining. There is a similar spike in the remaining files, with percentages after deduplication of 58%, 59%, and 62% for 6_R2, 16_R1, and 16_R2, respectively. This duplication could indicate PCR overamplification for this RNA-seq library, but also isn't too much of a concern because it could also just be the the transcript was duplicated in the organism since its RNA data. Adaptor content is low for file pair 6, but spikes from bp 60 onwards for file pair 16. But this spike should be okay to continue with since adaptors will be removed in further processing.
 
@@ -226,7 +259,7 @@ Questions:
 
 
 ### Part 2 - Adaptor trimming comparison
-Goal: Perform adaptor trimming with existing tools cutadapt and Trimmomatic. 
+Goal: Perform adaptor and quality trimming with existing tools cutadapt and Trimmomatic. 
 
 First, I will install cutadapt and Trimmomatic into my QAA conda environment:
 ```
@@ -239,28 +272,31 @@ $ trimmomatic -version
 ```
 Now I will use cutadapt to trim adaptor sequences from my files.
 
-Based on some research it appears that Illumina TruSeq uses the following adaptors:
+
+__Try to determine what the adapters are on your own.__
+Based on the metadata information, the libraries were prepared with KAPA's Stranded mRNA-seq kit. In the information for the kit, it states that the kit is compatible with adaptors used in Illumina TruSeq [1]. According to Illumina, the adaptor sequences used for TruSeq are [2]:
 
 Read 1: AGATCGGAAGAGCACACGTCTGAACTCCAGTCA
 Read 2: AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT
 
-source: https://support-docs.illumina.com/SHARE/AdapterSequences/Content/SHARE/AdapterSeq/TruSeq/UDIndexes.htm
 
-Sanity check: I will use bash commands to find the adaptor sequences.
+source: 
+[1] “KAPA Stranded RNA-Seq Kits,” Sequencing, 2024. https://sequencing.roche.com/us/en/products/group/kapa-stranded-rna-seq-kits.html (accessed Sep. 08, 2024).
+
+[2] “IDT for Illumina–TruSeq DNA and RNA UD Indexes,” Illumina.com, 2023. https://support-docs.illumina.com/SHARE/AdapterSequences/Content/SHARE/AdapterSeq/TruSeq/UDIndexes.htm (accessed Sep. 08, 2024).
+‌
+__Sanity check: Use your Unix skills to search for the adapter sequences in your datasets and confirm the expected sequence orientations. Report the commands you used, the reasoning behind them, and how you confirmed the adapter sequences.__
+
+Sanity check: I will use bash commands to find the adaptor sequences. I did this with both file sets to confirm the adaptor sequences.
 ```
-zcat /projects/bgmp/shared/2017_sequencing/demultiplexed/16_3D_mbnl_S12_L008_R1_001.fastq.gz | grep -c "AGATCGGAAGAGCACACGTCTGAACTCCAGTCA" | less -p
-zcat /projects/bgmp/shared/2017_sequencing/demultiplexed/16_3D_mbnl_S12_L008_R2_001.fastq.gz | grep "AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT"
+zcat /projects/bgmp/shared/2017_sequencing/demultiplexed/16_3D_mbnl_S12_L008_R1_001.fastq.gz | grep "AGATCGGAAGAGCACACGTCTGAACTCCAGTCA" | head | less -p "AGATCGGAAGAGCACACGTCTGAACTCCAGTCA"
+zcat /projects/bgmp/shared/2017_sequencing/demultiplexed/16_3D_mbnl_S12_L008_R2_001.fastq.gz | grep "AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT" | head | less -p "AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT"
 ```
-Sanity check: Use your Unix skills to search for the adapter sequences in your datasets and confirm the expected sequence orientations. Report the commands you used, the reasoning behind them, and how you confirmed the adapter sequences.
 
-only get adaptors in seq if insert is shorter than read len. If insert < 101, you will get adaptor seq on 3' end .
-
-
-ADD MORE
+To confirm the expected adaptor sequence orientations, I searched for the read 1 adaptor sequence at the ends of the read 1 files in each pair, and the read 2 adaptor sequence at the end of the read 2 pairs. First, grepping the adators pulls the reads with the adaptors in them. Then, I head the files to only output ten lines, and use less -p to highlight the adaptor sequence to see its position within the sequence. It makes sense that the adaptors are at the 3' end of the read because adaptors will only be included in the read if the insert length is less than the read length, causing the polymerase to read beyond the insert into the adaptor sequence.
 
 
-
-I will use the following cutadapt command template:
+Time to run cutadapt. I will use the following cutadapt command template:
 ```
 cutadapt -a ADAPTER_FWD -A ADAPTER_REV -o out.1.fastq -p out.2.fastq reads.1.fastq reads.2.fastq
 ```
@@ -296,7 +332,17 @@ Pair 6 Run Summary:
     * Read 2:   1,109,844,117/1,113,852,644 bp
 * Apdator 1 trimmed 416045 times
 * Adaptor 2 trimmed 502045 times
-	
+
+__What proportion of reads (both R1 and R2) were trimmed?__
+
+| File Pair | Read | Percent Trimmed |
+|---|---|---|
+| 6 | Read 1 | 3.8% |
+| 6 | Read 2 |  4.6% |
+| 16 | Read 1 | 12.2% |
+| 16 | Read 2 |  13.0% |
+
+
 ---
 ### 8/26/24
 ### Part 2 cont
@@ -386,6 +432,8 @@ Ok, it ran in 26 seconds and took 101% CPU for the 16 file pair, and it ran in 3
 | 16 | ![alt text](read_len_plots/read_len_dist_6.png) |
 | 6 | ![alt text](read_len_plots/read_len_dist_16.png) |
 
+__Comment on whether you expect R1s and R2s to be adapter-trimmed at different rates and why.__
+
 Based on the graphs, it appears that the R2 file was more extensively adaptor-trimmed because there are more reads from the R2 file with lengths shorter than 101. This may be due to a lower quality of read 2 from illumina sequencing because the cluster size of during the sequencing decreases during the bridge amplification at the paired-end turnaround stage [1] (or when preparing for R4 read). Therefore, it makes sense that read 2 got trimmed more in each file.
 
 Source:  
@@ -405,7 +453,7 @@ put fig size at top when making graphs, but generally you should not have to adj
 ---
 ### 9/2/24
 ### Part 3 - Alignment and strand-specificity
-Goal: Align the quality trimmed reads to a publicly available mouse genome.
+Goal: Align the quality trimmed reads to a publicly available mouse genome and determine counts of the genes within the reads.
 
 I started an interactive session on Talapas:
 ```
@@ -488,6 +536,7 @@ The file is called ```sam_parse.py```. This script will count up the number of r
 /usr/bin/time -v ./sam_parse.py -f "Mus_aligned_out/6_Mus_Aligned.out.sam" -o 6
 /usr/bin/time -v ./sam_parse.py -f "Mus_aligned_out/16_Mus_Aligned.out.sam" -o 16
 ```
+__Using your script from PS8 in Bi621, report the number of mapped and unmapped reads from each of your 2 sam files.__
 
 The commands outputted the following information:
 
@@ -498,29 +547,97 @@ File pair | run time | %CPU | # Mapped Reads | # Unmapped Reads | output file |
 
 Next, I will count the reads that match to features with htseq-count. I am making an sbatch script called ```run_htseq.sh```. The template for the htseq command I will use is below:
 ```
-/usr/bin/time -v htseq-count -f sam -r name --stranded=<> -c ouput <alignment_files> mmus_files/Mus_musculus.GRCm39.112.gtf
+/usr/bin/time -v htseq-count -f sam -r name --stranded=<> -c output <alignment_files> mmus_files/Mus_musculus.GRCm39.112.gtf
 ```
-htseq-count needs a sorted sam file as input, so I need to sort by star align output by 
-```
-$ samtools sort -n f -o output file
-```
--n sorts alphanumerically
+-f specifices the input files type. -r specifies the sortiing order for the paired ened data. --stranded=yes means the read has to be mapped to the same strand as the feature. This means the first read has to be on the same strand and the second read on the opposite strand. --stranded=reverse reveses these rules.
 
-I ran ```run_htseq.sh``` with the following command:
+htseq-count needs a sorted sam file as input for paired data, so I need to sort by star align output by name. My STAR output files are unsorted. I know this because the first line is "@HD VN:1.4" and does not include an "SO:coordinate" field to specify that its sorted,, according to a source about SAM file format [1]. I need to install samtools first. I will use the following commands:
+```
+$ conda install samtools -c bioconda
+$ conda update samtools
+$ samtools --version
+samtools 1.20
+$ samtools sort -n Mus_aligned_out/6_Mus_Aligned.out.sam -o Mus_aligned_out/sorted_6_Mus_Aligned.out.sam
+$ samtools sort -n Mus_aligned_out/16_Mus_Aligned.out.sam -o Mus_aligned_out/sorted_16_Mus_Aligned.out.sam
+```
+-n sorts alphanumerically. The resulting files have a "SO:queryname" in the first header line now, which means the files are sorted by name. Now the -r name flag in my htseq command will work.
+
+Source: [1] “Sequence Alignment/Map Format Specification,” 2020. Available: https://samtools.github.io/hts-specs/SAMv1.pdf
+
+So I actually ran htseq on both the sorted and unsorted files to see if there was a difference, and there was no difference (checked with ```diff file1 file2```).This means that STAR does automatically sort the output SAM files by query name. I will remember this for future runs of STAR and htseq-count (and its written here so I know I'll remember :smiley:)
+‌
+I ran ```run_htseq.sh``` on the original files with the following command:
 ```
 $ sbatch run_htseq.sh 
-Submitted batch job 15916682
+Submitted batch job 15916703
 ```
 
+Run summary:
+
+File pair | stranded | run time | %CPU | output file |
+|---|---|---|---|---|
+| 16 | yes | 11 minutes 25 seconds | 99% | ```counts_files/16_stranded.genecount``` |
+| 6 | yes | 14 minutes 35 seconds | 99% | ```counts_files/6_stranded.genecount``` |
+| 16 | reverse | 11 minutes 46 seconds | 99% | ```counts_files/16_reverse.genecount``` |
+| 6 | reverse | 14 minutes 47 seconds | 99% | ```counts_files/6_reverse.genecount``` |
 
 
-Count reads that map to features using htseq-count. You should run htseq-count twice: once with --stranded=yes and again with --stranded=reverse. Use default parameters otherwise.
+To demonstrate whether or not the data is from a strand specific RNA-Seq library, I will determine the percentage of reads that got mapped to a feature in each file and see if strandedness being one way vs another makes a difference.
 
-Demonstrate convincingly whether or not the data are from "strand-specific" RNA-Seq libraries. Include any comands/scripts used. Briefly describe your evidence, using quantitative statements (e.g. "I propose that these data are/are not strand-specific, because X% of the reads are y, as opposed to z.").
+Fist, I will sum the number of reads that mapped to a feature in all the files:
+```
+$ cat counts_files/6_stranded.genecount | grep "ENSMU" | awk '{count+=$2} END {print count}'
+360978
+$ cat counts_files/6_reverse.genecount | grep "ENSMU" | awk '{count+=$2} END {print count}'
+8607459
+$ cat counts_files/16_stranded.genecount | grep "ENSMU" | awk '{count+=$2} END {print count}'
+325575
+$ cat counts_files/16_reverse.genecount | grep "ENSMU" | awk '{count+=$2} END {print count}'
+6872907
+```
+Now, I will calculate the total number of reads in each genecount file:
+```
+$ cat counts_files/6_stranded.genecount | awk '{count+=$2} END {print count}'
+10461303
+$ cat counts_files/6_reverse.genecount | awk '{count+=$2} END {print count}'
+10461303
+$ cat counts_files/16_stranded.genecount | awk '{count+=$2} END {print count}'
+8014158
+$ cat counts_files/16_reverse.genecount | awk '{count+=$2} END {print count}'
+8014158
+```
 
-Tip
+Finally, I'll divide the total number of reads mapped by the total number of reads to determine the percentage of reads mapped in each file.
 
-Recall ICA4 from Bi621.
+Here is a table to summarize those results:
+
+File name | stranded= | mapped reads | total reads | % mapped |
+|---|---|---|---|---|
+| 6_stranded.genecount | yes | 360978 | 10461303 | 3.45 |
+| 6_reverse.genecount | reverse | 8607459 | 10461303 | 82.28 |
+| 16_stranded.genecount | yes | 325575 | 8014158 | 4.06 |
+| 16_reverse.genecount | reverse | 6872907 | 8014158 | 85.76 |
+
+As a note, the total number of reads is half in the ht-seq output compared to my script. I think this is due to the fact that htseq counts pairs of mapped reads, and my script counts each read separately in a pair
+
+I propose that these data are strand-specific because there is a large difference in performance for when the stranded parameter is set to yes vs reverse. When set to yes, file sets 6 and 16 only mapped 3.45% and 4.06% of the reads to genes, respectively. When set to reverse, file sets 6 and 16 mapped 82% and 85% of the reads to genes, respectively. Therefore, since one orientation of mapping the reads to features performed better than another, we can conclude that the library is strand specific.
+
+Strand-specific RNA-seq libraries are useful because you can tell which strand of cDNA corresponds back the the mRNA template. The template strand is used to transcribe the mRNA, and the non-template strand looks like the mRNA. In mRNA library prep, the 1st strand cDNA is used for sequencing and the 2nd strand mRNA is made of dUTP and gets broken down. Therefore, the 1st strand cDNA sequence will be R1, and 1st strand RC will be R4, or R2 after demultiplexing. In both sets of files, the ones with the stranded=reverse parameter had more mapped reads than the ones with the stranded=yes parameter. reverse=True means that the first read has to be on the opposite strand and the second reads has to be on the same strand. In Illumina stranded sequencing mRNA library prep, read 1 maps to the template strand and read 2 maps to the non-template strand.
+
+source: https://knowledge.illumina.com/library-preparation/rna-library-prep/library-preparation-rna-library-prep-reference_material-list/000002238
+
+
+---
+### 9/3/24
+### Writing the report
+
+I'm dead R markdown is hard.
+
+
+___
+### 9/8/24
+### Still writing the report
+
 
 
 
@@ -529,4 +646,30 @@ Recall ICA4 from Bi621.
 Part 2 challenge:
 
 CHALLENGE - Run FastQC on your trimmed data. Comment on differences you observe between the trimmed and untrimmed data. Include any figures needed to support your conclusions.
+
+
+CHALLENGE 
+Review the metadata available to you and see if this information leads to any additional insight of your analysis.
+
+
+
+
+Ok the report is almost done and I'm getting things ready to submit. I put all my sbatch scripts into a direectory called ```sbatch_scripts```. I put all my python scripts in ```python_scripts```. I added a file directory at the top of this document that has information about each of the directories I'm pushing to Github. 
+
+### Turn In Checklist
+
+Upload your:
+- [ ] lab notebook,
+- [ ] Talapas batch script/code, 
+- [ ] FastQC plots, 
+- [ ] counts files generated from htseq-count (in a folder would be nice),
+- [ ] pdf report (see below), 
+- [ ] and any additional plots, code, or code output
+
+to GitHub.
+    
+You should create a pdf file (using Rmarkdown) with a high-level report including:
+- [ ] all requested plots
+- [ ] answers to questions
+- [ ] mapped/unmapped read counts from PS8 script (in a nicely formatted table)
 

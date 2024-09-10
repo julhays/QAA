@@ -62,10 +62,9 @@ __File directory__
 * run_star_align.sh - runs STAR alignReads once per pair to align the filtered and trimmed reads to the generated database (Part 3)
 * run_htseq.sh - runs htseq-count, once stranded for each pair and once reverse stranded for each pair, to count the reads that map to features (Part 3)
 
+```QAA-Report.pdf``` - final report
 
 ```lab_notebook.md``` - Lab notebook for QAA assignment
-
-
 
 
 
@@ -723,11 +722,11 @@ Ok the report is almost done and I'm getting things ready to submit. I put all m
 ### Turn In Checklist
 
 Upload your:
-- [ ] lab notebook,
+- [ x ] lab notebook,
 - [ x ] Talapas batch script/code, 
 - [ x ] FastQC plots, 
 - [ x ] counts files generated from htseq-count (in a folder would be nice),
-- [ ] pdf report (see below), 
+- [ x ] pdf report (see below), 
 - [ x ] and any additional plots, code, or code output
 
 to GitHub.
@@ -737,5 +736,8 @@ You should create a pdf file (using Rmarkdown) with a high-level report includin
 - [ x ] answers to questions
 - [ x ] mapped/unmapped read counts from PS8 script (in a nicely formatted table)
 
-
 Everything is pushed except for the final report and the final lab notebook push.
+
+Ok, I have uploaded my final report to GitHub and canvas. One final push of the lab notebook and then I'm all done.
+
+Signing off. Byeeeee

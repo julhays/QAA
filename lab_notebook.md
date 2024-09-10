@@ -8,7 +8,31 @@ Environments used: QAA (fFastQC 0.12.1, Cutadapt 4.9, Trimmomatic 0.39, Matplotl
 
 __File directory__
 
-```lab_notebook.md``` - Lab notebook for QAA assignment
+```counts_files/```:
+* 6_stranded.genecount - ht_seq output for file pair 6_2D_mbnl_S5_L008, ```stranded = yes```
+* 6_reverse.genecount - ht_seq output for file pair 6_2D_mbnl_S5_L008, ```stranded = reverse```
+* 16_stranded.genecount - ht_seq output for file pair 16_3D_mbnl_S12_L008, ```stranded = yes```
+* 6_reverse.genecount - ht_seq output for file pair 16_3D_mbnl_S12_L008, ```stranded = reverse```
+
+
+```fastqc_plots/```:
+* 6_R1/ - FastQC plots for 6_2D_mbnl_S5_L008_R1_001.fastq.gz
+* 6_R2/ - FastQC plots for 6_2D_mbnl_S5_L008_R2_001.fastq.gz
+* 6_R1/ - FastQC plots for 16_3D_mbnl_S12_L008_R1_001.fastq.gz
+* 6_R1/ - FastQC plots for 16_3D_mbnl_S12_L008_R2_001.fastq.gz
+* html FastQC plot output also included for each file
+
+
+```fastqc_trimmed_plots/```:
+* trimmed_6_R1/ - FastQC plots for trimmed 6_2D_mbnl_S5_L008_R1_001.fastq.gz
+* trimmed_6_R2/ - FastQC plots for trimmed 6_2D_mbnl_S5_L008_R2_001.fastq.gz
+* trimmed_6_R1/ - FastQC plots for trimmed 16_3D_mbnl_S12_L008_R1_001.fastq.gz
+* trimmed_6_R1/ - FastQC plots for trimmed 16_3D_mbnl_S12_L008_R2_001.fastq.gz
+* html FastQC plot output also included for each file
+
+
+```metadata/``` - experimental information about the sample data
+
 
 ```python_scripts```:
 * qual_dist.py - plots the quality score per base of reads (Part 1)
@@ -16,27 +40,6 @@ __File directory__
 * sam_parse.py - counts the number of mapped and unmapped reads from the STAR alignment output SAM files (Part 3)
 * bioinfo.py - I used the convert_phred function from this script in qual_dist.py
 
-```sbatch_scripts```:
-* run_qual_dist.sh - runs qual_dist.py for each file in both pairs (Part 1)
-* run_cutadapt.sh - runs cutadapt, once per pair, to cut adaptor regions from the reads (Part 2)
-* run_trimmomatic.sh - runs trimmomatic, once per pair, to cut low quality regions from the reads (Part 2)
-* run_readlen_dist.sh - runs read_len_dist.py, once per pair (Part 2)
-* run_star_genomegen.sh - runs STAR genomeGenerate once to generate an alignment database from the Mus Musculus genome (Part 3)
-* run_star_align.sh - runs STAR alignReads once per pair to align the filtered and trimmed reads to the generated database (Part 3)
-* run_htseq.sh - runs htseq-count, once stranded for each pair and once reverse stranded for each pair, to count the reads that map to features (Part 3)
-
-```counts_files```:
-* 6_stranded.genecount - ht_seq output for file pair 6_2D_mbnl_S5_L008, ```stranded = yes```
-* 6_reverse.genecount - ht_seq output for file pair 6_2D_mbnl_S5_L008, ```stranded = reverse```
-* 16_stranded.genecount - ht_seq output for file pair 16_3D_mbnl_S12_L008, ```stranded = yes```
-* 6_reverse.genecount - ht_seq output for file pair 16_3D_mbnl_S12_L008, ```stranded = reverse```
-
-```fastqc_plots```:
-* 6_R1/ - FastQC plots for 6_2D_mbnl_S5_L008_R1_001.fastq.gz
-* 6_R2/ - FastQC plots for 6_2D_mbnl_S5_L008_R2_001.fastq.gz
-* 6_R1/ - FastQC plots for 16_3D_mbnl_S12_L008_R1_001.fastq.gz
-* 6_R1/ - FastQC plots for 16_3D_mbnl_S12_L008_R2_001.fastq.gz
-* html FastQC plot output also included for each file
 
 ```qual_plots```:
 * 6_R1_dist.png - quality distribution plot for 6_2D_mbnl_S5_L008_R1_001.fastq.gz from qual_dist.py
@@ -48,6 +51,21 @@ __File directory__
 ```read_len_plots```:
 * read_len_dist_6.png - read length distribution of adaptor and quality trimmed reads from 6_2D_mbnl_S5_L008
 * read_len_dist_16.png - read length distribution of adaptor and quality trimmed reads from 16_3D_mbnl_S12_L008
+
+
+```sbatch_scripts```:
+* run_qual_dist.sh - runs qual_dist.py for each file in both pairs (Part 1)
+* run_cutadapt.sh - runs cutadapt, once per pair, to cut adaptor regions from the reads (Part 2)
+* run_trimmomatic.sh - runs trimmomatic, once per pair, to cut low quality regions from the reads (Part 2)
+* run_readlen_dist.sh - runs read_len_dist.py, once per pair (Part 2)
+* run_star_genomegen.sh - runs STAR genomeGenerate once to generate an alignment database from the Mus Musculus genome (Part 3)
+* run_star_align.sh - runs STAR alignReads once per pair to align the filtered and trimmed reads to the generated database (Part 3)
+* run_htseq.sh - runs htseq-count, once stranded for each pair and once reverse stranded for each pair, to count the reads that map to features (Part 3)
+
+
+```lab_notebook.md``` - Lab notebook for QAA assignment
+
+
 
 
 
@@ -191,6 +209,8 @@ $ unzip fastqc_out/6_2D_mbnl_S5_L008_R1_001_fastqc.zip
 $ unzip fastqc_out/6_2D_mbnl_S5_L008_R2_001_fastqc.zip 
 ```
 
+I also moved the plots only and html files for each file into a separate directory called ```fastqc_plots``` that I will use the paths for in my notebook here and push to github as well.
+
 Below I will paste the resulting plots for each file.
 
 | File name | per_base_qual | per_base_n |
@@ -205,7 +225,7 @@ __Produce plots of the per-base N content, and comment on whether or not they ar
 
 The per base quality score distribution is consistant with the per base n content plot in all 4 files because there's a small spike in n content at the beginning of the reads and it looks like the quality score of the beginning the reads is lower than the rest of the read.
 
-Now, I will run these files through my own script ```qual_dist.py``` to calculate quality score distribution to see if it is similar to FastQC's distribution. To do this, I copied the python script I used to do this, plus the slurm script to run it, in the Demultiplex assignment using the below commands. I also needed bioinfo.py since my script used it for the ```convert_phred``` function.
+Now, I will run these files through my own script ```qual_dist.py``` to calculate quality score distribution to see if it is similar to FastQC's distribution. To do this, I copied the python script I used to do this, plus the slurm script to run it, in the Demultiplex assignment using the below commands. I also needed ```bioinfo.py``` since my script used it for the ```convert_phred``` function.
 ```
 $ cp /projects/bgmp/jkhay/bioinfo/Bi622/
 Demultiplex/Assignment-the-first/qual_dist.py .
@@ -232,14 +252,14 @@ Below is a table to compare the per base average quality score of the 4 files:
 Here is a summary of runtime stats:
 | Method | Runtime | Number of Cores | CPU Usage |
 |---|---|---|---|
-| FastQC | 2 minutes 49 seconds | 4 | 99% |
+| FastQC | 2 minutes 49 seconds | 1 | 99% |
 | qual_dist.py | 20 minutes 8 seconds | 8 | 99% |
 
 __Describe how the FastQC quality score distribution plots compare to your own. If different, propose an explanation. Also, does the runtime differ? Mem/CPU usage? If so, why?__
 
 The quality score distribution plots look very similar between the 2 methods. One obvious difference between the 2 plots is the the FastQC generated plot it gives more information about the distribution of quality scores for each nucleotide position than my plot. The red line shows the median, the yellow box shows the IQR, the upper and lower wisker give the 10% and 90% points, and the blue line gives the mean [1]. My plot only shows the mean for a given position, so I can compare the blue "mean" line with my plots. The lines for means appear to follow the same pattern, spiking and dipping in the same nucleotide positions, the dips and spikes are just less dramatic in the FastQC plots because the y-axis ranges from 0 to 40 whereas mine ranges from 30 to 40. The FastQC plots also show some guidelines with the red, orange, and green color zones to show what should be considered as a cutoff for 'good' quality, whereas my graph does not give any information about a cutoff. The FastQC plots are binned into 2 nucleotide groups, whereas my plots show a continuous distribution. This binning could potentially cause a loss of data. Finally, for my 4th file specifically, ```6_2D_mbnl_S5_L008_R2_001.fastq.gz```, the FastQC plot brings attention to some lower quality data: a dip in lower quartile/10% quality scores around bp 30-40, as well as a dip in lower quartile/10% quality at the end of the read from base pair 55 onwards. This means that there are some reads in the bottom 25% that are at or below the green cutoff of 28 in large sections of the read. My plot only shows the impact of these lower quality reads on the mean, which causes a small dip from about 38 to 36. I wouldn't think to throw out any reads based on my plot, but after seeing the FastQC  plot, I believe there are some lower quality reads in the ```6_2D_mbnl_S5_L008_R2_001.fastq.gz``` file that should be thrown out.
 
-In terms of runtime, in addition to providing a more in depth analysis of the quality score distribution, FastQC also ran through all 4 files 10 times faster than my python script did (see above runtime comparison table). Additionally, the 2 methods used the same % of CPU but FastQC did so with half the number of cores as my script. Overall, FastQC provides a better analysis of quality distribution and is faster and more efficient.
+In terms of runtime, in addition to providing a more in depth analysis of the quality score distribution, FastQC also ran through all 4 files 10 times faster than my python script did (see above runtime comparison table). Additionally, the 2 methods used the same % of CPU but FastQC uses multithreading to spread the compuation over multiple cores. Overall, FastQC provides a better analysis of quality distribution and is faster and more efficient.
 
 Some reasons that FastQC might be so much better in performance and faster than my python script is FastQC is a java application [2], and java code runs faster than python code because java does not need go through an interpretation step like python does. Additionally, FastQC was first released in 2010 so has had many years and likely teams of people to optimize it, whereas my code was developed a couple weeks ago by 1 grad student who is new to bioinfomatics. Therefore, it makes sense why FastQC is better in every way.
 
@@ -636,23 +656,67 @@ I'm dead R markdown is hard.
 
 ___
 ### 9/8/24
-### Still writing the report
+### Part 2 challenge
+Goal: Run FastQC on the trimmed data to see if trimming improves the quality.
+
+Ok, I am going to run FastQC again, but this time on my trimmed output, located at 
+```
+/projects/bgmp/jkhay/bioinfo/Bi623/QAA/trim_out/6_R1_paired_filtered.fastq.gz
+/projects/bgmp/jkhay/bioinfo/Bi623/QAA/trim_out/6_R2_paired_filtered.fastq.gz
+/projects/bgmp/jkhay/bioinfo/Bi623/QAA/trim_out/16_R1_paired_filtered.fastq.gz
+/projects/bgmp/jkhay/bioinfo/Bi623/QAA/trim_out/16_R2_paired_filtered.fastq.gz
+```
+I am only using the paired output because this is what I used for further processing downstream.
+
+I will run fastqc on all four files with the following command:
+```
+$ srun --account=bgmp --partition=bgmp --time=3:00:00 --pty bash
+$ conda activate QAA
+$ /usr/bin/time -v fastqc -o fastqc_trimmed_out -t 4 /projects/bgmp/jkhay/bioinfo/Bi623/QAA/trim_out/6_R1_paired_filtered.fastq.gz /projects/bgmp/jkhay/bioinfo/Bi623/QAA/trim_out/6_R2_paired_filtered.fastq.gz /projects/bgmp/jkhay/bioinfo/Bi623/QAA/trim_out/16_R1_paired_filtered.fastq.gz /projects/bgmp/jkhay/bioinfo/Bi623/QAA/trim_out/16_R2_paired_filtered.fastq.gz
+```
+The -t specifies the number of cores which my source said to do 1 per file, which is why I did 4. -o specifies the name of the output directory.
+
+It ran succesfully and took 2 minute 40 seconds and 97% CPU to run all 4 files. My fastqc outputs for each file are located in ```fastqc_trimmed_out``` directory. I unziped each of the zip files into their own directories, 1 for each file named after the file, using the following commands:
+```
+$ unzip fastqc_trimmed_out/6_R1_paired_filtered_fastqc.zip
+$ unzip fastqc_trimmed_out/6_R2_paired_filtered_fastqc.zip
+$ unzip fastqc_trimmed_out/16_R1_paired_filtered_fastqc.zip 
+$ unzip fastqc_trimmed_out/16_R2_paired_filtered_fastqc.zip
+```
+
+I also moved the plots only and html files for each file into a separate directory called ```fastqc_trimmed_plots``` that I will use the paths for in my notebook here and push to github as well.
+
+Below I will paste the per base quality score and n content plots for each file.
+
+| File name | per_base_qual | per_base_n |
+|---|---|---|
+| 16_R1 | ![alt text](fastqc_trimmed_plots/trimmed_16_R1/per_base_quality.png) | ![alt text](fastqc_plots/16_R1/per_base_n_content.png) |
+| 16_R2 | ![alt text](fastqc_trimmed_plots/trimmed_16_R2/per_base_quality.png) | ![alt text](fastqc_plots/16_R2/per_base_n_content.png) |
+| 6_R1 | ![alt text](fastqc_trimmed_plots/trimmed_6_R1/per_base_quality.png) | ![alt text](fastqc_plots/6_R1/per_base_n_content.png) |
+| 6_R2 | ![alt text](fastqc_trimmed_plots/trimmed_6_R2/per_base_quality.png) | ![alt text](fastqc_plots/6_R2/per_base_n_content.png) |
 
 
+__Comment on differences you observe between the trimmed and untrimmed data. Include any figures needed to support your conclusions.__
+
+The trimmed files have an improved per-base quality score than the original files. For all files, the lower tenth percentile and lower quartile shifted up in quality, which in turn shifts the mean quality up as well. This is especially apparent in file pair 6, where some of the reads extended into the yellow, reasonable quality zone from base position 55 and onwards, but in the trimmed data the spread no longer extends into the reasonable quality zone and is in the good quality zone (green). This improvement is reasonable because low quality sequences were trimmed out.  The trimmed files also have an improved per-sequence quality score, specifically on the lower bound of mean sequence quality. The lower bound of sequence quality shifted up from 12 to 19 for the read 1 files and from 12 to 16 for the read 2 files. This shows that the trimming removed lower quality sequences from the files. Corresponding with the increase in per-base and sequence quality, the spike in the per-base N content early in the read decreased, showing that the quality filtering cut out any unknown base calls at the beginning of the reads. Finally, adaptor content reduced to zero and adaptor sequences are no longer overrepresented in the reads because the adaptors were filtereed.
+
+A few of the FastQC analyses still raised a warning with the trimmed files. The per-tile sequence quality plots look nearly identical to the original files, except for a few regions of lighter blue became more darkly shaded, meaning these positions saw a slight increase in quality. The red regions (poor quality), however, still remained red. This may be because the color scale of the per-tile sequence quality plots is relative to the average quality for that base position in a run, so even if a lower quality position improved in quality, it might remain red because the overall mean quality shifted up as well. The per-base sequence content remained nearly identical to the original files, which means the adaptor filtering and quality trimming that was performed does not remove nucleotide composition biases at the beginning of a read. The sequence length distribution is no longer consistant at 101 base pairs because, as seen in the read length distribution plots (Figure X), many of the reads were adaptor and quality trimmed so are shorter now. Finally, there is still high duplication levels in the trimmed files, but this is to be expected since a transcript can appear multiple times in a sample. Interestingly, read 2 from pair 6 still has some overrepresented sequences. The two overrepresented sequences were run through the blast database, both matching to Mus musculus 18S ribosomal RNA (rRNA) genes. This indicates that the the messenger RNA (mRNA) extraction did not fully isolate the mRNA from other types of RNA as this sample was contaminated by rRNA.
 
 
+### Metadata challenge
+Goal: Tie the metadata into my analyses.
 
+One interesting observation is that the indexes contained N in them. File pair 6 should have had ```TAGCCATG``` as a barcode, but instead had ```NAGCCATG```. File pair 16 should have had ```ACGATCAG``` but instead had ```NCGATCAG```. According to Illumina, many demultiplexing softwares treat N as a wild card charracter [1], so my files could contain barcodes with any character in place of the N. It is unlikely that incorrect indexes were added to these files regardless of the wildcard N because the rest of the index is enough nucleotides away from the other indexes.
 
-Part 2 challenge:
+Both of the samples analyzed in this report, 6 and 16, were MBNL treated. Sample 6 came from cell passage 2 and sample 16 came from cell passage 3.
 
-CHALLENGE - Run FastQC on your trimmed data. Comment on differences you observe between the trimmed and untrimmed data. Include any figures needed to support your conclusions.
+Based on the description of the library prep, 300 to 400 is the expected fragment size. Both sample 6 and 16 contained contaminants around size 32 base pairs. These sequences could possibly be primer dimers. A majority of the library in both files was around the 300 to 500 base pair range in length. Sample 6 had an average fragment size of 441 base pairs and sample 16 had an average fragment size of 353 base pairs. Both of these lengths are within or near the target length range of 300-400 base pairs. Since sample 16 had a shorter average insert length, this could explain why sample 16 had a higher percentage of reads adaptor trimmed (Table 4), becase the shorter average insert length would imply that the insert length for more sequences is shorter than the read length so they would run into the adaptor sequence. Sample 16, however, has much less area in this peak compared to sample 6, which could explain why sample 16 had less records than sample 6. Overall, these libraries were high quality, likely because the fragments that generated them were the correct length with little contamination.
 
+source: [1] “Using an N wildcard in index sequences in different Illumina FastQ generation software | Illumina Knowledge,” Illumina.com, 2019. https://knowledge.illumina.com/software/general/software-general-reference_material-list/000003560 (accessed Sep. 09, 2024).
+‌
 
-CHALLENGE 
-Review the metadata available to you and see if this information leads to any additional insight of your analysis.
-
-
-
+### 9/9/24
+### Finishing the report and submitting
 
 Ok the report is almost done and I'm getting things ready to submit. I put all my sbatch scripts into a direectory called ```sbatch_scripts```. I put all my python scripts in ```python_scripts```. I added a file directory at the top of this document that has information about each of the directories I'm pushing to Github. 
 
@@ -660,16 +724,16 @@ Ok the report is almost done and I'm getting things ready to submit. I put all m
 
 Upload your:
 - [ ] lab notebook,
-- [ ] Talapas batch script/code, 
+- [ x ] Talapas batch script/code, 
 - [ ] FastQC plots, 
-- [ ] counts files generated from htseq-count (in a folder would be nice),
+- [ x ] counts files generated from htseq-count (in a folder would be nice),
 - [ ] pdf report (see below), 
-- [ ] and any additional plots, code, or code output
+- [ x ] and any additional plots, code, or code output
 
 to GitHub.
     
 You should create a pdf file (using Rmarkdown) with a high-level report including:
-- [ ] all requested plots
+- [ x ] all requested plots
 - [ ] answers to questions
-- [ ] mapped/unmapped read counts from PS8 script (in a nicely formatted table)
+- [ x ] mapped/unmapped read counts from PS8 script (in a nicely formatted table)
 

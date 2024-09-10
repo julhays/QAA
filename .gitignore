@@ -15,6 +15,7 @@
 
 # fastqc output 
 fastqc_out/
+fastqc_trimmed_out/
 
 # fastqc unzipped output
 16_3D_mbnl_S12_L008_R1_001_fastqc/
@@ -32,6 +33,8 @@ Mus_aligned_out/
 Mus_musculus.GRCm39.dna.ens112.STAR_2.7.11b/
 mmus_files/
 mapped_counts/
+trim_out/
+cutadapt_out/
 
 
 # vscode

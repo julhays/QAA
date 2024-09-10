@@ -725,7 +725,7 @@ Ok the report is almost done and I'm getting things ready to submit. I put all m
 Upload your:
 - [ ] lab notebook,
 - [ x ] Talapas batch script/code, 
-- [ ] FastQC plots, 
+- [ x ] FastQC plots, 
 - [ x ] counts files generated from htseq-count (in a folder would be nice),
 - [ ] pdf report (see below), 
 - [ x ] and any additional plots, code, or code output
@@ -734,6 +734,8 @@ to GitHub.
     
 You should create a pdf file (using Rmarkdown) with a high-level report including:
 - [ x ] all requested plots
-- [ ] answers to questions
+- [ x ] answers to questions
 - [ x ] mapped/unmapped read counts from PS8 script (in a nicely formatted table)
 
+
+Everything is pushed except for the final report and the final lab notebook push.
